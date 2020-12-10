@@ -2,7 +2,7 @@
 BEGIN
    SELECT
         d.diagnosis_details as Diagnosis,
-        COUNT(d.patient_id) as [Patients Diagnosed]
+        COUNT(d.patient_id) as [Number Patients Diagnosed]
     FROM Diagnosis d
     GROUP BY d.diagnosis_details
     ORDER BY [Patients Diagnosed];
