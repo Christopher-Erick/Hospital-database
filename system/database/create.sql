@@ -1,21 +1,55 @@
-create database Hospital_Management_System
+CREATE DATABASE Hospital_Management_System
 GO
+
+CREATE TABLE  Town(
+     id INT IDENTITY(1,1),
+     name VARCHAR(255) NOT NULL,
+
+     CONSTRAINT PK_Town PRIMARY KEY (id),
+);
+GO
+
+CREATE TABLE  Address(
+     id INT IDENTITY(1,1),
+     establishment TEXT NOT NULL,
+     landmark TEXT NOT NULL,
+     town INT NOT NULL,
+
+     CONSTRAINT PK_Address PRIMARY KEY (id),
+     CONSTRAINT FK_Address_Town FOREIGN KEY (town) REFERENCES Town (id),
+);
+GO
+
+CREATE TABLE InsuranceCompany {
+    id INT IDENTITY(1,1),
+    name VARCHAR(180) NOT NULL,
+    phone VARCHAR(24) NOT NULL,
+    email VARCHAR(32) NOT NULL,
+    address INT NOT NULL,
+    
+    CONSTRAINT PK_InsuranceCompany PRIMARY KEY (id),
+    CONSTRAINT FK_InsuranceCompany_Address FOREIGN KEY (address) REFERENCES Address (id)
+}
+GO
+
 CREATE TABLE Patient(
     patient_id INT IDENTITY(1,1),
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
-    identification_id VARCHAR(40) NOT NULL,
-    identification_type CHAR(40) NOT NULL,
-    address VARCHAR(255) NOT NULL ,
+    id_number VARCHAR(40) NOT NULL,
+    id_document TEXT(40) NOT NULL,
+    address INT NOT NULL ,
     phone_number VARCHAR(20) NOT NULL ,
-    D_O_B DATE NOT NULL ,
+    d_o_b DATE NOT NULL ,
     gender CHAR NOT NULL ,
     insurance_no VARCHAR (50) NOT NULL,
+    insurance_company INT NOT NULL,
 
     CONSTRAINT PK_Patient PRIMARY KEY (patient_id),
+    CONSTRAINT FK_Patient_Address FOREIGN KEY (address) REFERENCES Address (id),
+    CONSTRAINT FK_Patient_InsuranceCompany FOREIGN KEY (insurance_company) REFERENCES InsuranceCompany (id)
 );
 CREATE INDEX IX_Patient_Insurance_No ON Patient(insurance_no);
-
 GO
 
 CREATE TABLE Account(
